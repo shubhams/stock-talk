@@ -3,3 +3,9 @@ class APP_CONSTANTS:
 
 class DB_CONSTANTS:
 	USER_COLLECTION = 'users'
+
+class ALPHA_VANTAGE_URLS:
+	BASE_URL = 'https://www.alphavantage.co/query'
+
+	class FUNCTIONS:
+		SYMBOL_SEARCH = 'SYMBOL_SEARCH'

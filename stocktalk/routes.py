@@ -1,8 +1,9 @@
-from flask import request, redirect, url_for, render_template
+from flask import request, redirect, url_for, render_template, json
 from flask_login import current_user, login_user, login_required, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from stocktalk import app, User
+from stocktalk.helpers import get_search_results
 from stocktalk.models.forms import RegForm, LoginForm
 
 
@@ -52,7 +53,42 @@ def logout():
 	logout_user()
 	return redirect(url_for('login'))
 
+
+@app.route('/search', methods=['GET'])
+@login_required
+def search_symbols():
+	sym = request.args.get('sym')
+	results = get_search_results(sym)
+
+	symbols_list = list()
+	for result in results['bestMatches']:
+		symbol = dict()
+		symbol['id'] = result['1. symbol']
+		text = result['2. name']
+		symbol['text'] = text + ' (' + symbol['id'] + ')'
+		symbols_list.append(symbol)
+	symbol_results = dict()
+	symbol_results['results'] = symbols_list
+
+	response = app.response_class(
+		response=json.dumps(symbol_results),
+		status=200,
+		mimetype='application/json'
+	)
+	return response
+
+
+@app.route('/save', methods=['POST'])
+@login_required
+# @csrf.exempt
+def save_symbol():
+	sym = request.form.get('sym')
+	if sym:
+		return "Success!"
+	return "Failed! Try again!"
+
+
 @app.route('/dashboard')
 @login_required
 def dashboard():
-	return "Dashboard"
+	return render_template('dashboard.html')
