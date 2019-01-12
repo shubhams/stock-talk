@@ -1,0 +1,17 @@
+certifi==2018.11.29
+Click==7.0
+Flask==1.0.2
+Flask-Login==0.4.1
+flask-mongoengine==0.9.5
+Flask-WTF==0.14.2
+itsdangerous==1.1.0
+Jinja2==2.10
+MarkupSafe==1.1.0
+mongoengine==0.16.3
+pymongo==3.7.2
+pyte==0.8.0
+six==1.12.0
+svgwrite==1.1.12
+termtosvg==0.3.0
+Werkzeug==0.14.1
+WTForms==2.2.1

@@ -1,5 +1,5 @@
 from flask import request, redirect, url_for, render_template
-from flask_login import current_user, login_user, login_required
+from flask_login import current_user, login_user, login_required, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from stocktalk import app, User
@@ -44,6 +44,13 @@ def register():
 				login_user(new_user)
 				return redirect(url_for('dashboard'))
 	return render_template('register.html', form=form)
+
+
+@app.route('/logout', methods=['GET'])
+@login_required
+def logout():
+	logout_user()
+	return redirect(url_for('login'))
 
 @app.route('/dashboard')
 @login_required
