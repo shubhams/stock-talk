@@ -5,6 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from stocktalk import app, User
 from stocktalk.helpers import get_search_results
 from stocktalk.models.forms import RegForm, LoginForm
+from stocktalk.models.user import UserSymbols
 
 
 @app.route('/')
@@ -84,6 +85,11 @@ def search_symbols():
 def save_symbol():
 	sym = request.form.get('sym')
 	if sym:
+		saved_symbols = UserSymbols.objects(username=current_user.username)
+		if not saved_symbols:
+			UserSymbols(current_user.username, [sym]).save()
+		else:
+			UserSymbols.objects(username=current_user.username).update_one(add_to_set__symbols=[sym])
 		return "Success!"
 	return "Failed! Try again!"
 
