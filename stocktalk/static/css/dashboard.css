@@ -10,3 +10,7 @@ h3 {
     height: 300px;
     width: 90%;
 }
+
+.glyphicon-trash:hover {
+    color: red;
+}

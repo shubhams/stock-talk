@@ -34,7 +34,6 @@ def login():
 	return render_template('login.html', form=form, error=error_message)
 
 
-
 @app.route('/register', methods=['GET', 'POST'])
 def register():
 	form = RegForm()
@@ -82,7 +81,6 @@ def search_symbols():
 
 @app.route('/save', methods=['POST'])
 @login_required
-# @csrf.exempt
 def save_symbol():
 	sym = request.form.get('sym')
 	if sym:
@@ -92,6 +90,18 @@ def save_symbol():
 		else:
 			UserSymbols.objects(username=current_user.username).update_one(add_to_set__symbols=[sym])
 		return "Success!"
+	return "Failed! Try again!"
+
+
+@app.route('/remove', methods=['POST'])
+@login_required
+def remove_symbol():
+	sym = request.form.get('sym')
+	if sym:
+		try:
+			UserSymbols.objects(username=current_user.username).update_one(pull__symbols=sym)
+		except DoesNotExist:
+			return "Failed! Try again!"
 	return "Failed! Try again!"
 
 
@@ -119,7 +129,6 @@ def time_series():
 def dashboard():
 	try:
 		saved_symbols = UserSymbols.objects.get(username=current_user.username)
-		print(saved_symbols.symbols)
 		return render_template('dashboard.html', symbols=saved_symbols.symbols, username=current_user.username)
 	except DoesNotExist:
 		return render_template('dashboard.html', symbols=[], username=current_user.username)

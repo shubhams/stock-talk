@@ -29,6 +29,20 @@ function submitSymbol(csrfToken) {
     xhttp.send(postData);
 }
 
+function submitDelete(csrfToken, sym) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("save-response").innerHTML = this.responseText;
+        }
+    };
+    xhttp.open("POST", "/remove", true);
+    xhttp.setRequestHeader("X-CSRFToken", csrfToken);
+    var postData = new FormData();
+    postData.append('sym', sym);
+    xhttp.send(postData);
+}
+
 function submitLogout(csrfToken) {
     var xhttp = new XMLHttpRequest();
     xhttp.open("POST", "/logout", true);
