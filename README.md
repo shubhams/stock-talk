@@ -21,6 +21,7 @@ All the code is written in Python 3. The primary database is MongoDB. The depend
 ```
 $ pip install -r requirements.txt
 ```
+The stock market data is supplied by [Alpha Vantage API](https://www.alphavantage.co/). Before starting, get your API key and add it to the file `stocktalk/config/dev.py`.
 
 ### Run the app
 Activate the virtual environment.
