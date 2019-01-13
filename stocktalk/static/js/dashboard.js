@@ -61,32 +61,32 @@ function render_chart(id) {
     var closeLine = {};
     $.getJSON(url, function(data) {
         $.each(data['Time Series (60min)'], function(key, value){
-            openPoints.push({x: new Date(key), y: parseFloat(value['1. open'])});
+            // openPoints.push({x: new Date(key), y: parseFloat(value['1. open'])});
             highPoints.push({x: new Date(key), y: parseFloat(value['2. high'])});
             lowPoints.push({x: new Date(key), y: parseFloat(value['3. low'])});
-            closePoints.push({x: new Date(key), y: parseFloat(value['4. close'])});
+            // closePoints.push({x: new Date(key), y: parseFloat(value['4. close'])});
         });
-        openLine['type'] = 'line';
-        highLine['type'] = 'line';
-        lowLine['type'] = 'line';
-        closeLine['type'] = 'line';
+        // openLine['type'] = 'line';
+        highLine['type'] = 'spline';
+        lowLine['type'] = 'spline';
+        // closeLine['type'] = 'line';
 
-        openLine['name'] = 'open';
+        // openLine['name'] = 'open';
         highLine['name'] = 'high';
         lowLine['name'] = 'low';
-        closeLine['name'] = 'close';
+        // closeLine['name'] = 'close';
 
-        openLine['showInLegend'] = true;
+        // openLine['showInLegend'] = true;
         highLine['showInLegend'] = true;
         lowLine['showInLegend'] = true;
-        closeLine['showInLegend'] = true;
+        // closeLine['showInLegend'] = true;
 
-        openLine['dataPoints'] = openPoints;
+        // openLine['dataPoints'] = openPoints;
         highLine['dataPoints'] = highPoints;
         lowLine['dataPoints'] = lowPoints;
-        closeLine['dataPoints'] = closePoints;
+        // closeLine['dataPoints'] = closePoints;
 
-        dataPoints.push(openLine, highLine, lowLine, closeLine);
+        dataPoints.push(highLine, lowLine);
         chart.render();
     });
 }
