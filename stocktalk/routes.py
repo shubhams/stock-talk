@@ -1,9 +1,10 @@
 from flask import request, redirect, url_for, render_template, json
 from flask_login import current_user, login_user, login_required, logout_user
+from mongoengine import DoesNotExist
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from stocktalk import app, User
-from stocktalk.helpers import get_search_results
+from stocktalk.helpers import get_search_results, get_time_series
 from stocktalk.models.forms import RegForm, LoginForm
 from stocktalk.models.user import UserSymbols
 
@@ -48,7 +49,7 @@ def register():
 	return render_template('register.html', form=form)
 
 
-@app.route('/logout', methods=['GET'])
+@app.route('/logout', methods=['POST'])
 @login_required
 def logout():
 	logout_user()
@@ -94,7 +95,31 @@ def save_symbol():
 	return "Failed! Try again!"
 
 
-@app.route('/dashboard')
+@app.route('/timeseries', methods=['GET'])
+@login_required
+def time_series():
+	sym = request.args.get('sym')
+	interval = request.args.get('interval')
+
+	if interval:
+		results = get_time_series(sym, interval)
+	else:
+		results = get_time_series(sym)
+
+	response = app.response_class(
+		response=json.dumps(results),
+		status=200,
+		mimetype='application/json'
+	)
+	return response
+
+
+@app.route('/dashboard', methods=['GET'])
 @login_required
 def dashboard():
-	return render_template('dashboard.html')
+	try:
+		saved_symbols = UserSymbols.objects.get(username=current_user.username)
+		print(saved_symbols.symbols)
+		return render_template('dashboard.html', symbols=saved_symbols.symbols, username=current_user.username)
+	except DoesNotExist:
+		return render_template('dashboard.html', symbols=[], username=current_user.username)

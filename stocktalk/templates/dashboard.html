@@ -13,14 +13,27 @@
 <body>
     <select class="js-data-example-ajax"></select>
     <button type="button" class="btn btn-default btn-sm" onclick="submitSymbol('{{ csrf_token() }}')">Add</button>
+
+    <button type="button" class="btn btn-danger btn-sm" style="float: right;"
+            onclick="submitLogout('{{ csrf_token() }}')">Logout {{ username }}</button>
     <br>
     <p id="save-response"></p>
+    <br>
+
+
+    {% for symbol in symbols %}
+
+        <div class="chart-container" id="{{symbol}}"></div>
+        <br>
+
+    {% endfor %}
 
     <script
             src="https://code.jquery.com/jquery-3.3.1.min.js"
             integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
             crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/canvasjs/1.7.0/canvasjs.min.js"></script>
     <script src="../static/js/dashboard.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
