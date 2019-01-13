@@ -8,7 +8,6 @@ This repository contains the code a Flask application that allows a user to add 
 + `GET /search`: Takes `sym` parameter and fetches stock symbols
 + `GET /timeseries`: Takes `sym` parameter and fetches timeseries stock values
 + `GET /dashboard`: Renders the dashboard page 
-<br/>
 + `POST /register`: Creates a user in the database
 + `POST /login`: Creates a user session with existing user
 + `POST /logout`: Logs out a user session
