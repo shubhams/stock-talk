@@ -16,6 +16,6 @@ requests==2.21.0
 six==1.12.0
 svgwrite==1.1.12
 termtosvg==0.3.0
-urllib3==1.24.1
+urllib3==1.26.5
 Werkzeug==0.14.1
 WTForms==2.2.1
